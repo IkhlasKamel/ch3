@@ -3,63 +3,86 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package part3_1;
+package javaapplication83;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
 
 /**
  *
  * @author Ikhlas Kamel
  */
-public class Q2 {
+
+    public class Q2  extends JFrame{
+      
+    JButton btn1;
+    JTextArea p1;
+    JList<String> s;
+    public Q2(){
+         
+        this.setTitle("Multiple Selection Lists");
+        this.setLayout(null);
+        Container pane = this.getContentPane();
+        
+         
+      
+     String[]list={"Black","Blue","Cyan","Dark Gray","Gray"};
+     s=new JList<>(list);
+     s.setSelectedIndex(0);
      
-	public static void main(String[] args) throws IOException 
-	{ 
-			File file = new File("C:\\Users\\Ikhlas Kamel\\Desktop\\Texts.txt"); 
-		FileInputStream fileStream = new FileInputStream(file); 
-		InputStreamReader input = new InputStreamReader(fileStream); 
-		BufferedReader reader = new BufferedReader(input); 
-		
-		String line; 
-		
-		int countWord = 0; 
-		int sentenceCount = 0; 
-		int letterCount = 0; 
-		int paragraphCount = 1; 
-		int whitespaceCount = 0; 
-		
-		
-		while((line = reader.readLine()) != null) 
-		{ 
-			if(line.equals("")) 
-			{ 
-				paragraphCount++; 
-			} 
-			if(!(line.equals(""))) 
-			{ 
-				
-				letterCount += line.length(); 
-				
-				String[] wordList = line.split("\\s+"); 
-				
-				countWord += wordList.length; 
-				whitespaceCount += countWord -1; 
-				
-				String[] sentenceList = line.split("[!?.:]+"); 
-				
-				sentenceCount += sentenceList.length; 
-			} 
-		} 
-		
-		System.out.println("Total word count = " + countWord); 
-		System.out.println("Total number of sentences = " + sentenceCount); 
-		System.out.println("Total number of letter  = " + letterCount); 
-		System.out.println("Number of paragraphs = " + paragraphCount); 
-		System.out.println("Total number of whitespaces = " + whitespaceCount); 
-        }
+        
+    s.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+   
+     
+   JScrollPane c=new JScrollPane(s);
+     c.setBounds(40, 30,90, 90);
+              
+   
+       p1 = new JTextArea();
+       p1.setBounds(250,35,90,80);
+    
+ 
+       
+        btn1 = new JButton("copy>>>");  
+        btn1.setBounds(140,70, 100, 30);
+        btn1.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                
+                      String values = "";
+                for (int i = 0; i <  s.getSelectedValuesList().size(); i++) {
+                    values +=  s.getSelectedValuesList().get(i)+"\n";      
+                }
+                p1.setText(values); 
+            }
+        });
+        
+          
+        pane.add(p1);
+        pane.add(btn1);
+        pane.add(c);
+        
+      
+        this.setSize(new Dimension(400,200));
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(true);
+    }
+    
+    public static void main(String[] args) {
+      new Q2();
+    }
 
 }
+
+
+
